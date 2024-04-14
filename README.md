@@ -7,11 +7,13 @@ This repository hosts the data model and analysis scripts for an application sim
 
 ## Data Model
 
-The data model for this Instagram-like application consists of several key entities:
+The data model for this Instagram-like application consists of the following tables:
 
-### Users
-
-The `users` table stores information about the users of the application. Each user has a unique `user_id` and includes attributes such as `name`, `email`, and `phone_number`.
+- `users`: Stores information about the users of the application.
+- `posts`: Contains data about the posts made by users.
+- `comments`: Stores comments made on posts.
+- `likes`: Records likes given to posts by users.
+- `followers`: Tracks the followers of users.
 
 ```sql
 CREATE TABLE users (
@@ -20,13 +22,7 @@ CREATE TABLE users (
     email VARCHAR(50) UNIQUE NOT NULL,
     phone_number VARCHAR(20) UNIQUE
 );
-```
 
-### Posts
-
-The `posts` table contains data about the posts made by users. Each post has a unique `post_id` and is associated with the user who created it through the `user_id` foreign key. Additional attributes include `caption`, `image_url`, and `created_at`.
-
-```sql
 CREATE TABLE posts (
     post_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -35,13 +31,7 @@ CREATE TABLE posts (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
-```
 
-### Comments
-
-The `comments` table stores comments made on posts. Each comment has a unique `comment_id` and is linked to the post it belongs to via the `post_id` foreign key. The `user_id` foreign key establishes the relationship between users and their comments.
-
-```sql
 CREATE TABLE comments (
     comment_id SERIAL PRIMARY KEY,
     post_id INTEGER NOT NULL,
@@ -51,13 +41,7 @@ CREATE TABLE comments (
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
-```
 
-### Likes
-
-The `likes` table records likes given to posts by users. Each like has a unique `like_id` and is associated with the post being liked through the `post_id` foreign key. The `user_id` foreign key links users to their liked posts.
-
-```sql
 CREATE TABLE likes (
     like_id SERIAL PRIMARY KEY,
     post_id INTEGER NOT NULL,
@@ -66,13 +50,7 @@ CREATE TABLE likes (
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
-```
 
-### Followers
-
-The `followers` table tracks the followers of users. Each follower relationship is represented by a unique `follower_id` and is linked to the user being followed (`user_id`) and the follower (`follower_user_id`).
-
-```sql
 CREATE TABLE followers (
     follower_id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
@@ -83,7 +61,7 @@ CREATE TABLE followers (
 );
 ```
 
-This data model allows for the representation of users, their posts, comments on those posts, likes received by posts, and follower relationships between users.
+This data model enables the representation of users, their posts, comments on those posts, likes received by posts, and follower relationships between users.
 
 ## Practice Questions
 
